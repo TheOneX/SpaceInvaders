@@ -31,13 +31,13 @@ public class SpaceInvaders implements Application {
         }
         SpriteFactory sf = s.getSpriteFactory();
         //invader 
-        invader = new Invader(0, 100, s.getWidth(), s.getHeight(), ((float) s.getWidth()) / 5000.0f);
+        invader = new Invader(0, s.getHeight()/2, s.getWidth(), s.getHeight(), ((float) s.getWidth()) / 5000.0f);
         int r = invader.getHeight() / 24;
         SpriteBuilder bld = sf.newSprite(r / 2, r / 2);
         bld.setAnchor(r, r);
         invaderSprite = bld.build();
         // ship
-        ship = new Ship(0, s.getHeight() - 100, s.getWidth(), s.getHeight(), 0.0f);
+        ship = new Ship(0, s.getHeight() - 50, s.getWidth(), s.getHeight(), 0.0f);
         int d = r / 4;
         bld = sf.newSprite(r, d);
         bld.setAnchor(r, r);
@@ -49,7 +49,8 @@ public class SpaceInvaders implements Application {
     @Override
     public boolean update(long time) {
         System.out.println("X ="+invader.getPosX());
-        System.out.println("Y ="+ invader.getPosY());
+        System.out.println("invaderY ="+ invader.getPosY());
+        System.out.println("ShipY ="+ship.getPosY());
         
         if(direction == true){
             invader.moveRight(time);
@@ -68,7 +69,7 @@ public class SpaceInvaders implements Application {
       }
             
         
-        return (ship.getPosY() < invader.getPosY());
+        return (ship.getPosY() > invader.getPosY());
     }
 
     @Override
