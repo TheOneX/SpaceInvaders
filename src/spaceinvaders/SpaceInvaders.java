@@ -23,6 +23,7 @@ public class SpaceInvaders implements Application {
     private Ship ship;
     private Screen s;
     private boolean direction = true; // true = right, false = left
+
     @Override
     public boolean initialize(Device device) {
         s = device.getScreen();
@@ -31,13 +32,14 @@ public class SpaceInvaders implements Application {
         }
         SpriteFactory sf = s.getSpriteFactory();
         //invader 
-        invader = new Invader(0, s.getHeight()/2, s.getWidth(), s.getHeight(), ((float) s.getWidth()) / 5000.0f);
+        invader = new Invader(5, 5, s.getWidth(), s.getHeight(), ((float) s.getWidth()) / 5000.0f);
         int r = invader.getHeight() / 24;
-        SpriteBuilder bld = sf.newSprite(r / 2, r / 2);
+        int t = r + r + 1;
+        SpriteBuilder bld = sf.newSprite(t, t);
         bld.setAnchor(r, r);
         invaderSprite = bld.build();
         // ship
-        ship = new Ship(0, s.getHeight() - 50, s.getWidth(), s.getHeight(), 0.0f);
+        ship = new Ship(s.getWidth() / 2, s.getHeight() - 50, s.getWidth(), s.getHeight(), 0.0f);
         int d = r / 4;
         bld = sf.newSprite(r, d);
         bld.setAnchor(r, r);
@@ -48,39 +50,43 @@ public class SpaceInvaders implements Application {
 
     @Override
     public boolean update(long time) {
-        System.out.println("X ="+invader.getPosX());
-        System.out.println("invaderY ="+ invader.getPosY());
-        System.out.println("ShipY ="+ship.getPosY());
-        
-        if(direction == true){
-            invader.moveRight(time);
-            }
-        if(direction == false){
-            invader.moveLeft(time);
+        System.out.println("invaderX =" + invader.getPosX() + "/" + s.getWidth());
+        System.out.println("invaderY =" + invader.getPosY() + "/" + s.getHeight());
+        System.out.println("ShipY =" + ship.getPosY());
+
+        if (direction) {
+            System.out.println("Direction = right");
         }
-        
-      if(invader.getPosX()== s.getWidth()){
-                    invader.moveDown();
-                    direction = false;
+        if (!direction) {
+            System.out.println("Direction = left");
+        }
+        if (direction == true) {
+            if (invader.getPosX() >= s.getWidth()) {
+                invader.moveDown();
+                direction = false;
             }
-      if(invader.getPosX() == 0){
-          invader.moveDown();
-          direction = true;
-      }
-            
-        
+            else{invader.moveRight(time);}
+        }
+        if (direction == false) {
+            if (invader.getPosX() <= 0) {
+                invader.moveDown();
+                direction = true;
+            }
+            else{invader.moveLeft(time);}
+        }
+
         return (ship.getPosY() > invader.getPosY());
     }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawSprite(ship.getPosX(), ship.getPosY(), shipSprite);
-        canvas.drawSprite(invader.getPosX(), invader.getPosY()*2, invaderSprite);
+        canvas.drawSprite(invader.getPosX(), invader.getPosY() * 2, invaderSprite);
     }
 
     @Override
     public void destroy() {
-       
+
     }
 
 }
