@@ -7,6 +7,8 @@ package spaceinvaders;
 
 import applicationapi.*;
 import applicationapi.graphics.*;
+import applicationapi.input.keyboard.KeyEvent;
+import applicationapi.input.keyboard.KeyboardListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author TheOneX
  */
-public class SpaceInvaders implements Application {
+public class SpaceInvaders implements Application, KeyboardListener {
 
     private Sprite invaderSprite;
     private Sprite bulletSprite;
@@ -30,16 +32,16 @@ public class SpaceInvaders implements Application {
     int r;
     int t;
 
-    public void buildInvaders(){
-        
+    public void buildInvaders() {
+
         invader = new Invader(5, 5, s.getWidth(), s.getHeight(), ((float) s.getWidth()) / 5000.0f);
-            r = invader.getHeight() / 24;
-            t = r + r + 1;
-            bld = sf.newSprite(t, t);
-            bld.setAnchor(r, r);
-            invaderSprite = bld.build();
+        r = invader.getHeight() / 24;
+        t = r + r + 1;
+        bld = sf.newSprite(t, t);
+        bld.setAnchor(r, r);
+        invaderSprite = bld.build();
     }
-    
+
     @Override
     public boolean initialize(Device device) {
         s = device.getScreen();
@@ -100,6 +102,31 @@ public class SpaceInvaders implements Application {
     @Override
     public void destroy() {
 
+    }
+
+    @Override
+    public void onKeyPress(KeyEvent ke) {
+        //ship.moveleft/right
+        Object left = ke.getKey().VK_A;
+        Object right = ke.getKey().VK_S;
+        Object shoot = ke.getKey().VK_SPACE;
+        if (ke.getKey().equals(left)) {
+            ship.moveLeft();
+        } else {
+            if (ke.getKey().equals(right)) {
+                ship.moveRight();
+            } else{
+                if(ke.getKey().equals(shoot)){
+                    //ship.bullet.start
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onKeyRelease(KeyEvent ke) {
+        //ship.shootBullet
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
