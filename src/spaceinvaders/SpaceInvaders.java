@@ -32,6 +32,9 @@ public class SpaceInvaders implements Application, KeyboardListener {
     SpriteBuilder bld;
     int r;
     int t;
+    boolean KeyADown = false;
+    boolean KeySDown = false;
+    boolean keySpaceDown = false;
 
     public void buildInvaders() {
 
@@ -64,6 +67,15 @@ public class SpaceInvaders implements Application, KeyboardListener {
 
     @Override
     public boolean update(long time) {
+        while(KeyADown){
+            ship.moveLeft();
+        }
+        while(KeySDown){
+            ship.moveRight();
+        }
+        while(keySpaceDown){
+            //ship.shoot
+        }
         System.out.println("invaderX =" + invader.getPosX() + "/" + s.getWidth());
         System.out.println("invaderY =" + invader.getPosY() + "/" + s.getHeight());
         System.out.println("ShipY =" + ship.getPosY());
@@ -107,18 +119,14 @@ public class SpaceInvaders implements Application, KeyboardListener {
 
     @Override
     public void onKeyPress(KeyEvent ke) {
-        //ship.moveleft/right
-        Object left = Key.VK_A;
-        Object right = Key.VK_S;
-        Object shoot = Key.VK_SPACE;
-        if (ke.getKey().equals(left)) {
-            ship.moveLeft();
+        if (ke.getKey().equals(Key.VK_A)) {
+            KeyADown = true;
         } else {
-            if (ke.getKey().equals(right)) {
-                ship.moveRight();
+            if (ke.getKey().equals(Key.VK_S)) {
+                KeySDown = true;
             } else{
-                if(ke.getKey().equals(shoot)){
-                    //ship.bullet.start
+                if(ke.getKey().equals(Key.VK_SPACE)){
+                    keySpaceDown = true;
                 }
             }
         }
@@ -126,8 +134,17 @@ public class SpaceInvaders implements Application, KeyboardListener {
 
     @Override
     public void onKeyRelease(KeyEvent ke) {
-        //ship.shootBullet
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (ke.getKey().equals(Key.VK_A)) {
+            KeyADown = false;
+        } else {
+            if (ke.getKey().equals(Key.VK_S)) {
+                KeySDown = false;
+            } else{
+                if(ke.getKey().equals(Key.VK_SPACE)){
+                    keySpaceDown = false;
+                }
+            }
+        }        
     }
 
 }
