@@ -7,6 +7,7 @@ package spaceinvaders;
 
 import applicationapi.*;
 import applicationapi.graphics.*;
+import applicationapi.input.keyboard.Key;
 import applicationapi.input.keyboard.KeyEvent;
 import applicationapi.input.keyboard.KeyboardListener;
 import java.util.logging.Level;
@@ -107,9 +108,9 @@ public class SpaceInvaders implements Application, KeyboardListener {
     @Override
     public void onKeyPress(KeyEvent ke) {
         //ship.moveleft/right
-        Object left = ke.getKey().VK_A;
-        Object right = ke.getKey().VK_S;
-        Object shoot = ke.getKey().VK_SPACE;
+        Object left = Key.VK_A;
+        Object right = Key.VK_S;
+        Object shoot = Key.VK_SPACE;
         if (ke.getKey().equals(left)) {
             ship.moveLeft();
         } else {
