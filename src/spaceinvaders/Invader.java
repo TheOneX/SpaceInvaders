@@ -18,12 +18,12 @@ public class Invader  extends Thing{
     
     public void moveLeft(long time){
         System.out.println("Moving invader left");
-        this.setPosX(this.getPosX()-10);//(int)(time / this.getPixelsPrMiliSec()));
+        this.setPosX(this.getPosX()-1);//(int)(time / this.getPixelsPrMiliSec()));
     }
     
     public void moveRight(long time){
         System.out.println("Moving invader right");
-        this.setPosX(this.getPosX()+10);//(int)(time * this.getPixelsPrMiliSec()));
+        this.setPosX(this.getPosX()+1);//(int)(time * this.getPixelsPrMiliSec()));
     }
     public void moveDown(){
         System.out.println("Moving invader down");
