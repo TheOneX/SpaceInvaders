@@ -13,7 +13,7 @@ public class Ship extends Thing{
     }
     
     public void moveLeft(){
-        System.out.println("Moving ship down");
+        System.out.println("Moving ship left");
         this.setPosX(this.getPosX()-10);
     }
     public void moveRight(){

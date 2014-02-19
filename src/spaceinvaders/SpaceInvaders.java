@@ -35,6 +35,8 @@ public class SpaceInvaders implements Application, KeyboardListener {
     boolean KeyADown = false;
     boolean KeySDown = false;
     boolean keySpaceDown = false;
+    int maxRight = s.getWidth();
+    int maxLeft = 0;
 
     public void buildInvaders() {
 
@@ -68,13 +70,18 @@ public class SpaceInvaders implements Application, KeyboardListener {
 
     @Override
     public boolean update(long time) {
-        while(KeyADown){
-            ship.moveLeft();
+        if(KeyADown){
+            if(ship.getPosX() > maxLeft){
+                ship.moveLeft();
+            }
+            //else{some kind of animation to show u can't move}
         }
-        while(KeySDown){
-            ship.moveRight();
+        if(KeySDown){
+            if((ship.getPosX()+ship.getWidth())/2 < maxRight){
+                ship.moveRight();
+            }
         }
-        while(keySpaceDown){
+        if(keySpaceDown){
             //ship.shoot
         }
         System.out.println("invaderX =" + invader.getPosX() + "/" + s.getWidth());
