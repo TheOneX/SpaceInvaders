@@ -7,6 +7,8 @@ package spaceinvaders;
 
 import applicationapi.*;
 import applicationapi.graphics.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 ;
 
@@ -23,21 +25,30 @@ public class SpaceInvaders implements Application {
     private Ship ship;
     private Screen s;
     private boolean direction = true; // true = right, false = left
+    SpriteFactory sf;
+    SpriteBuilder bld;
+    int r;
+    int t;
 
+    public void buildInvaders(){
+        
+        invader = new Invader(5, 5, s.getWidth(), s.getHeight(), ((float) s.getWidth()) / 5000.0f);
+            r = invader.getHeight() / 24;
+            t = r + r + 1;
+            bld = sf.newSprite(t, t);
+            bld.setAnchor(r, r);
+            invaderSprite = bld.build();
+    }
+    
     @Override
     public boolean initialize(Device device) {
         s = device.getScreen();
         if (s == null) {
             return false;
         }
-        SpriteFactory sf = s.getSpriteFactory();
-        //invader 
-        invader = new Invader(5, 5, s.getWidth(), s.getHeight(), ((float) s.getWidth()) / 5000.0f);
-        int r = invader.getHeight() / 24;
-        int t = r + r + 1;
-        SpriteBuilder bld = sf.newSprite(t, t);
-        bld.setAnchor(r, r);
-        invaderSprite = bld.build();
+        sf = s.getSpriteFactory();
+        buildInvaders();
+
         // ship
         ship = new Ship(s.getWidth() / 2, s.getHeight() - 50, s.getWidth(), s.getHeight(), 0.0f);
         int d = r / 4;
@@ -64,15 +75,17 @@ public class SpaceInvaders implements Application {
             if (invader.getPosX() >= s.getWidth()) {
                 invader.moveDown();
                 direction = false;
+            } else {
+                invader.moveRight(time);
             }
-            else{invader.moveRight(time);}
         }
         if (direction == false) {
             if (invader.getPosX() <= 0) {
                 invader.moveDown();
                 direction = true;
+            } else {
+                invader.moveLeft(time);
             }
-            else{invader.moveLeft(time);}
         }
 
         return (ship.getPosY() > invader.getPosY());
