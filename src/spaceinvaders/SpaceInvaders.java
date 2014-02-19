@@ -48,6 +48,7 @@ public class SpaceInvaders implements Application, KeyboardListener {
 
     @Override
     public boolean initialize(Device device) {
+        device.getKeyboard().addKeyboardListener(this);
         s = device.getScreen();
         if (s == null) {
             return false;
@@ -120,12 +121,15 @@ public class SpaceInvaders implements Application, KeyboardListener {
     @Override
     public void onKeyPress(KeyEvent ke) {
         if (ke.getKey().equals(Key.VK_A)) {
+            System.out.println("Key a pressed");
             KeyADown = true;
         } else {
             if (ke.getKey().equals(Key.VK_S)) {
+                System.out.println("Key s pressed");
                 KeySDown = true;
             } else{
                 if(ke.getKey().equals(Key.VK_SPACE)){
+                    System.out.println("Key space pressed");
                     keySpaceDown = true;
                 }
             }
