@@ -24,6 +24,7 @@ public class SpaceInvaders implements Application, KeyboardListener {
     private Sprite invaderSprite;
     private Sprite bulletSprite;
     private Sprite shipSprite;
+    private Bullet bullet;
     private Invader invader;
     private Ship ship;
     private Screen s;
@@ -35,8 +36,8 @@ public class SpaceInvaders implements Application, KeyboardListener {
     boolean KeyADown = false;
     boolean KeySDown = false;
     boolean keySpaceDown = false;
-    int maxRight = s.getWidth();
-    int maxLeft = 0;
+    int maxRight;
+    int maxLeft;
 
     public void buildInvaders() {
 
@@ -48,6 +49,21 @@ public class SpaceInvaders implements Application, KeyboardListener {
         invaderSprite = bld.build();
     }
 
+    public void buildShip() {
+        ship = new Ship(s.getWidth() / 2, s.getHeight() - 50, s.getWidth(), s.getHeight(), 0.0f);
+        int d = r / 4;
+        bld = sf.newSprite(r, d);
+        bld.setAnchor(r, r);
+        shipSprite = bld.build();
+    }
+
+    public void buildBullet() {
+        bullet = new Bullet(ship.getPosX(), ship.getPosY(), s.getWidth(), s.getHeight(), 1000.0f);
+        bld = sf.newSprite(5, 10);
+        bld.setAnchor(5, 5);
+        bulletSprite = bld.build();
+    }
+
     @Override
     public boolean initialize(Device device) {
         device.getKeyboard().addKeyboardListener(this);
@@ -55,44 +71,36 @@ public class SpaceInvaders implements Application, KeyboardListener {
         if (s == null) {
             return false;
         }
+        maxRight = s.getWidth();
+        maxLeft = 0;
         sf = s.getSpriteFactory();
         buildInvaders();
-
-        // ship
-        ship = new Ship(s.getWidth() / 2, s.getHeight() - 50, s.getWidth(), s.getHeight(), 0.0f);
-        int d = r / 4;
-        bld = sf.newSprite(r, d);
-        bld.setAnchor(r, r);
-        shipSprite = bld.build();
-        // build bullet
+        buildShip();
         return true;
     }
 
     @Override
     public boolean update(long time) {
-        if(KeyADown){
-            if(ship.getPosX() > maxLeft){
+        if (KeyADown) {
+            if (ship.getPosX() > maxLeft) {
                 ship.moveLeft();
             }
             //else{some kind of animation to show u can't move}
         }
-        if(KeySDown){
-            if((ship.getPosX()+ship.getWidth())/2 < maxRight){
+        if (KeySDown) {
+            if ((ship.getPosX() + ship.getWidth()) / 2 < maxRight) {
                 ship.moveRight();
             }
         }
-        if(keySpaceDown){
-            //ship.shoot
+        if (keySpaceDown) {
+            System.out.println("bullit build");
+            buildBullet();
         }
-        System.out.println("invaderX =" + invader.getPosX() + "/" + s.getWidth());
-        System.out.println("invaderY =" + invader.getPosY() + "/" + s.getHeight());
-        System.out.println("ShipY =" + ship.getPosY());
-
-        if (direction) {
-            System.out.println("Direction = right");
-        }
-        if (!direction) {
-            System.out.println("Direction = left");
+//        System.out.println("invaderX =" + invader.getPosX() + "/" + s.getWidth());
+//        System.out.println("invaderY =" + invader.getPosY() + "/" + s.getHeight());
+//        System.out.println("ShipY =" + ship.getPosY());
+        if (bullet != null) {
+            bullet.moveUp();
         }
         if (direction == true) {
             if (invader.getPosX() >= s.getWidth()) {
@@ -134,8 +142,8 @@ public class SpaceInvaders implements Application, KeyboardListener {
             if (ke.getKey().equals(Key.VK_S)) {
                 System.out.println("Key s pressed");
                 KeySDown = true;
-            } else{
-                if(ke.getKey().equals(Key.VK_SPACE)){
+            } else {
+                if (ke.getKey().equals(Key.VK_SPACE)) {
                     System.out.println("Key space pressed");
                     keySpaceDown = true;
                 }
@@ -150,12 +158,12 @@ public class SpaceInvaders implements Application, KeyboardListener {
         } else {
             if (ke.getKey().equals(Key.VK_S)) {
                 KeySDown = false;
-            } else{
-                if(ke.getKey().equals(Key.VK_SPACE)){
+            } else {
+                if (ke.getKey().equals(Key.VK_SPACE)) {
                     keySpaceDown = false;
                 }
             }
-        }        
+        }
     }
 
 }
