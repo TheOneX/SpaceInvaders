@@ -10,6 +10,6 @@ public class Bullet extends Thing{
         super(posX, posY, width, height, pixelsPrMiliSec);
     }
     public void moveUp(){
-        this.setPosY(this.getPosY() + 1);
+        this.setPosY(this.getPosY() - 1);
     }
 }
